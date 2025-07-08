@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Telegram Mini App — Order Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f8f9fa;
+      padding: 20px;
+      color: #333;
+    }
+    h2 {
+      text-align: center;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #0088cc;
+      color: white;
+      font-size: 1em;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #007ab8;
+    }
+  </style>
+</head>
+<body>
+  <h2>🛒 Order Form / Форма заказа</h2>
+
+  <div class="form-group">
+    <label for="name">Name / Имя:</label>
+    <input type="text" id="name" placeholder="John / Иван">
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email / Эл. почта:</label>
+    <input type="email" id="email" placeholder="you@example.com">
+  </div>
+
+  <div class="form-group">
+    <label for="product">Product / Продукт:</label>
+    <select id="product">
+      <option value="icecream">Ice Cream Base / Основа для мороженого</option>
+      <option value="sports">Sports Nutrition / Спортивное питание</option>
+      <option value="baby">Baby Formula / Детское питание</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="amount">Amount / Сумма (ILS):</label>
+    <input type="number" id="amount" min="10" value="100">
+  </div>
+
+  <button onclick="submitForm()">💳 Submit & Pay / Отправить и оплатить</button>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+
+    function submitForm() {
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const product = document.getElementById("product").value;
+      const amount = document.getElementById("amount").value;
+
+      if (!name || !email || !amount) {
+        alert("Please fill in all fields / Пожалуйста, заполните все поля");
+        return;
+      }
+
+      const data = {
+        name: name,
+        email: email,
+        product: product,
+        amount: amount
+      };
+
+      // Отправка данных в Telegram-бот
+      tg.sendData(JSON.stringify(data));
+
+      // Эмуляция оплаты (в реальности нужна интеграция через invoice)
+      alert("Form submitted! / Форма отправлена!");
+      tg.close();
+    }
+  </script>
+</body>
+</html>
